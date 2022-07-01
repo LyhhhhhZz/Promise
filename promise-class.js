@@ -169,17 +169,23 @@ class MyPromise {
             resolve(x);
         }
     }
-}
+    
+    static resolve(value) {
+        if(value instanceof MyPromise) {
+            return value
+        }
 
-const test = new MyPromise((resolve, reject) => {
-    setTimeout(() => {
-        reject(111)
-    }, 1000)
-}).then(val => {
-    console.log(val)
-}).catch(reason => {
-    console.log(`[catch]:${reason}`)
-})
+        return new MyPromise(resolve => {
+            resolve(value)
+        })
+    }
+
+    static reject(reason) {
+        return new MyPromise(reject => {
+            reject(reason)
+        })
+    }
+}
 
 
 
